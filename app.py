@@ -86,12 +86,16 @@ st.title("New Summary Generator")
 # text input 
 youtube_url = st.text_input("Enter the Youtube URL")
 
+if not youtube_url:
+    st.error("Enter a Valid URL")
+    st.stop()
+
 # extract the transcript
 try:
     view_version_script, video_transcript, homework_ten_script = extract_youtube_content(youtube_url)
 except Exception as error:
     message = "Transcript Generation Failed: {}".format(str(error))
-    st.error("Transcript Generation Fails! Please Try Again")
+    st.error("Transcript Generation Fails! Please Try Again with a valid URL")
     st.stop()
 
 # display the transcript in side bar
