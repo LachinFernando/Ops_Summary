@@ -91,13 +91,15 @@ if not youtube_url:
     st.stop()
 
 # extract the transcript
-try:
-    view_version_script, video_transcript, homework_ten_script = extract_youtube_content(youtube_url)
-except Exception as error:
-    message = "Transcript Generation Failed: {}".format(str(error))
-    print(message)
-    st.error("Transcript Generation Fails! Please Try Again with a valid URL")
-    st.stop()
+# try:
+#     view_version_script, video_transcript, homework_ten_script = extract_youtube_content(youtube_url)
+# except Exception as error:
+#     message = "Transcript Generation Failed: {}".format(str(error))
+#     print(message)
+#     st.error("Transcript Generation Fails! Please Try Again with a valid URL")
+#     st.stop()
+
+view_version_script, video_transcript, homework_ten_script = extract_youtube_content(youtube_url)
 
 # display the transcript in side bar
 with st.sidebar:
