@@ -1,6 +1,7 @@
 import streamlit as st
 from urllib.parse import urlparse, parse_qs
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api.proxies import WebshareProxyConfig
 
 from rag import helper_graph as llm_graph
 
@@ -52,7 +53,12 @@ def get_video_id_from_url(url: str) -> str:
 def extract_youtube_content(youtube_url: str) -> tuple:
     extract_id = get_video_id_from_url(youtube_url)
     # extract the youtube content
-    ytt_api = YouTubeTranscriptApi()
+    ytt_api = YouTubeTranscriptApi(
+        proxy_config=WebshareProxyConfig(
+            proxy_username="ufelojkh",
+            proxy_password="uueai9nlfq07",
+        )
+    )
     script = ytt_api.fetch(extract_id)
 
     # get the ten minutes bench mark
@@ -91,15 +97,13 @@ if not youtube_url:
     st.stop()
 
 # extract the transcript
-# try:
-#     view_version_script, video_transcript, homework_ten_script = extract_youtube_content(youtube_url)
-# except Exception as error:
-#     message = "Transcript Generation Failed: {}".format(str(error))
-#     print(message)
-#     st.error("Transcript Generation Fails! Please Try Again with a valid URL")
-#     st.stop()
-
-view_version_script, video_transcript, homework_ten_script = extract_youtube_content(youtube_url)
+try:
+    view_version_script, video_transcript, homework_ten_script = extract_youtube_content(youtube_url)
+except Exception as error:
+    message = "Transcript Generation Failed: {}".format(str(error))
+    print(message)
+    st.error("Transcript Generation Fails! Please Try Again with a valid URL")
+    st.stop()
 
 # display the transcript in side bar
 with st.sidebar:
