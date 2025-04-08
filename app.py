@@ -95,6 +95,7 @@ try:
     view_version_script, video_transcript, homework_ten_script = extract_youtube_content(youtube_url)
 except Exception as error:
     message = "Transcript Generation Failed: {}".format(str(error))
+    print(message)
     st.error("Transcript Generation Fails! Please Try Again with a valid URL")
     st.stop()
 
