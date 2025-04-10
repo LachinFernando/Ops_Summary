@@ -7,14 +7,15 @@ from rag import helper_graph as llm_graph
 
 
 HOMEWORK_CHECK_BENCHMARK = 10 * 60
-IMPORTANT_KEYS = ['topics', 'review', 'directions', 'homework', 'code_error', 'technical_issue']
+IMPORTANT_KEYS = ['topics', 'review', 'directions', 'homework', 'code_error', 'technical_issue', 'email_info']
 TOPIC_DICT = {
     "topics": "Topics Discussed",
     "review": "Homework Review",
     "directions": "Future Directions",
     "homework": "Homework for the Next Session",
     "code_error": "Code Erros Occured",
-    "technical_issue": "Technical Issues Occured"
+    "technical_issue": "Technical Issues Occured",
+    "email_info": "Email Sending Information"
 }
 
 
@@ -113,6 +114,7 @@ with st.sidebar:
 # getting predictions
 with st.spinner("Analysing the script.......", show_time=True):
     get_invoke_response = llm_graph.invoke({"full_script": video_transcript, "ten_minute_script": homework_ten_script})
+    print(get_invoke_response.keys())
 
 if get_invoke_response:
     for response_key in IMPORTANT_KEYS:
