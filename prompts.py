@@ -183,3 +183,46 @@ Follow these instructions precisely to extract and present the technical issue d
 
 
 """
+
+SEND_EMAIL_PROMPT = """
+You are a highly skilled language model trained to analyze session transcripts between a student and a machine learning instructor.
+
+Your task is to carefully examine the transcript below and extract any instances where there is a discussion about sending emails. This includes all cases where:
+- The student is instructed or directed to send an email to coordinators.
+- An email is mentioned as being sent to the student—for example, by the operations or coordinator team.
+- There is any discussion regarding email communication, including follow-ups, sharing documents, or confirming details via email.
+
+Examples of relevant email-related phrases include:
+- "send an email"
+- "email me"
+- "I'll email the document"
+- "send an email to the coordinator"
+- "we will send you an email"
+- "email your parents"
+- "email confirmation"
+
+Below is the transcript
+
+{transcript}
+
+For each identified email-related incident, provide the following details:
+1. Timestamp: Extract the exact timestamp from the transcript when the discussion about sending an email occurred.
+2. Email Context: Summarize the discussion or instruction regarding the email. Explain who is expected to send the email and to whom, or who will send an email and what is expected of the recipient.
+3. Email Content: Describe the key content or message that is mentioned should be included in the email.
+
+Output Requirements:
+- If email-related incidents are found, create a clear section for each incident with the following format:
+  Email Incident [number]: ([Timestamp])
+  - Context: [Brief summary of the discussion regarding the email]
+  - Content: [Description of the email content that needs to be sent]
+- If no email-related incidents are present in the transcript, output a clear statement indicating that no discussion about sending email was identified.
+
+Scope: Only use information directly from the transcript. Do not add or infer details that are not explicitly mentioned.
+
+Formatting: Use plain text without any markdown styles beyond simple bullet points.
+
+Tone: Maintain a formal and instructional tone throughout your response.
+
+Follow these instructions precisely to extract and present the email-related incidents from the transcript.
+
+"""
