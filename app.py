@@ -19,6 +19,11 @@ TOPIC_DICT = {
 }
 
 
+# state handling for the chat app
+if 'transcript' not in st.session_state:
+    st.session_state['transcript'] = None
+
+
 def convert_seconds(seconds):
     # Calculate hours
     hours = int(seconds // 3600)
@@ -100,6 +105,8 @@ if not youtube_url:
 # extract the transcript
 try:
     view_version_script, video_transcript, homework_ten_script = extract_youtube_content(youtube_url)
+    if video_transcript:
+        st.session_state['transcript'] = video_transcript
 except Exception as error:
     message = "Transcript Generation Failed: {}".format(str(error))
     print(message)
@@ -108,8 +115,9 @@ except Exception as error:
 
 # display the transcript in side bar
 with st.sidebar:
-    st.subheader("Transcript")
-    st.write(view_version_script)
+    with st.expander("Transcript......"):
+        st.subheader("Transcript")
+        st.write(view_version_script)
 
 # getting predictions
 with st.spinner("Analysing the script.......", show_time=True):
