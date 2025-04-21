@@ -108,8 +108,9 @@ except Exception as error:
 
 # display the transcript in side bar
 with st.sidebar:
-    st.subheader("Transcript")
-    st.write(view_version_script)
+    with st.expander("Transcript......"):
+        st.subheader("Transcript")
+        st.write(view_version_script)
 
 # getting predictions
 with st.spinner("Analysing the script.......", show_time=True):
