@@ -226,3 +226,17 @@ Tone: Maintain a formal and instructional tone throughout your response.
 Follow these instructions precisely to extract and present the email-related incidents from the transcript.
 
 """
+
+COMMON_TEMPLATE = """
+"Use the following pieces of context to answer the question at the end with human readable answer as a paragraph"
+"Please do not use data outside the context to answer any questions. "
+"If the answer is not in the given context, just say that you don't have enough context."
+"If the specified name is not in the context, answer as I don't have any context and advise him to check the name or spellings."
+"don't try to make up an answer. "
+"\n\n"
+{context}
+"\n\n"
+Question: {question}
+"n"
+"Helpful answer:   "
+"""
