@@ -1,3 +1,8 @@
 langchain-openai==0.3.12
 langgraph==0.3.25
 youtube-transcript-api==1.0.3
+google-api-core
+google-api-python-client
+google-auth
+google-auth-httplib2
+googleapis-common-protos
