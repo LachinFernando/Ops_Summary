@@ -4,6 +4,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.proxies import WebshareProxyConfig
 
 from rag import helper_graph as llm_graph
+from utils import get_youtube_transcript
 
 
 HOMEWORK_CHECK_BENCHMARK = 10 * 60
@@ -24,7 +25,8 @@ if 'transcript' not in st.session_state:
     st.session_state['transcript'] = None
 
 
-def convert_seconds(seconds):
+def convert_seconds(milliseconds):
+    seconds = milliseconds / 1000
     # Calculate hours
     hours = int(seconds // 3600)
     seconds %= 3600
@@ -58,31 +60,24 @@ def get_video_id_from_url(url: str) -> str:
 
 def extract_youtube_content(youtube_url: str) -> tuple:
     extract_id = get_video_id_from_url(youtube_url)
-    # extract the youtube content
-    ytt_api = YouTubeTranscriptApi(
-        proxy_config=WebshareProxyConfig(
-            proxy_username="ufelojkh",
-            proxy_password="uueai9nlfq07",
-        )
-    )
-    script = ytt_api.fetch(extract_id)
+    script = get_youtube_transcript(extract_id)
 
     # get the ten minutes bench mark
-    end_benchmark = script[0].start + HOMEWORK_CHECK_BENCHMARK
+    end_benchmark = script[0]["start"] + HOMEWORK_CHECK_BENCHMARK
 
     st_view_text_set = []
     original_text_set = []
     homework_check_text = []
     # VTT format generation
     for index, script_ in enumerate(script):
-        start_time = convert_seconds(script_.start)
-        end_time = convert_seconds(script_.start + script_.duration)
-        text = script_.text
+        start_time = convert_seconds(script_["start"])
+        end_time = convert_seconds(script_["end"])
+        text = script_["text"]
         st_view_text_set.append("{} --> {}:  \n{}".format(start_time, end_time, text))
         original_text_set.append("{} --> {}:\n{}".format(start_time, end_time, text))
 
         # check and attach homework check prompts
-        if script_.start <= end_benchmark:
+        if script_["start"] <= end_benchmark:
             homework_check_text.append(text)
 
     transcript = "  \n".join(st_view_text_set)
